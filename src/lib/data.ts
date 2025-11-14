@@ -3,7 +3,7 @@ import { PlaceHolderImages } from './placeholder-images';
 
 const equipmentImages = PlaceHolderImages;
 
-export const allEquipment: Equipment[] = [
+export let allEquipment: Equipment[] = [
   {
     id: 'em-001',
     name: 'Main Factory Motor',
@@ -95,6 +95,13 @@ export const allEquipment: Equipment[] = [
     },
   },
 ];
+
+// This is a temporary in-memory solution. 
+// In a real application, this would be a database call.
+export const addEquipment = (equipment: Equipment) => {
+    allEquipment.unshift(equipment);
+};
+
 
 export const getEquipmentById = (id: string): Equipment | undefined => {
   return allEquipment.find((eq) => eq.id === id);

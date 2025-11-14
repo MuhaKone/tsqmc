@@ -10,6 +10,7 @@ import {
   SidebarSeparator,
   SidebarGroup,
   SidebarGroupLabel,
+  SidebarMenuAction,
 } from '@/components/ui/sidebar';
 import { AppLogo } from './app-logo';
 import {
@@ -18,6 +19,7 @@ import {
   Calendar,
   BarChart,
   Search,
+  Plus,
 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
@@ -26,6 +28,7 @@ import { StatusBadge } from './status-badge';
 import { Input } from './ui/input';
 import { cn } from '@/lib/utils';
 import React from 'react';
+import { Button } from './ui/button';
 
 const statusDot: Record<string, string> = {
   Healthy: 'bg-green-500',
@@ -103,7 +106,14 @@ export default function AppSidebar() {
         </SidebarGroup>
         <SidebarSeparator />
         <SidebarGroup>
-          <SidebarGroupLabel>Équipements</SidebarGroupLabel>
+          <div className="flex items-center justify-between">
+            <SidebarGroupLabel>Équipements</SidebarGroupLabel>
+            <Button asChild variant="ghost" size="icon" className="h-7 w-7 group-data-[collapsible=icon]:hidden">
+                <Link href="/equipment/new" title="Ajouter un équipement">
+                    <Plus className="h-4 w-4" />
+                </Link>
+            </Button>
+          </div>
           <SidebarMenu>
             {allEquipment.map((item) => (
               <SidebarMenuItem key={item.id}>
@@ -123,9 +133,9 @@ export default function AppSidebar() {
                    <StatusBadge
                     status={item.status}
                     className={cn(
-                      item.status === 'Healthy' && 'bg-green-500 text-green-950',
-                      item.status === 'Warning' && 'bg-yellow-500 text-yellow-950',
-                      item.status === 'Critical' && 'bg-red-500 text-red-950',
+                      item.status === 'Healthy' && 'bg-green-500/80 text-green-950',
+                      item.status === 'Warning' && 'bg-yellow-500/80 text-yellow-950',
+                      item.status === 'Critical' && 'bg-red-500/80 text-red-950',
                       'px-1.5 py-0 text-[10px] font-semibold shrink-0 border-none'
                     )}
                   />
