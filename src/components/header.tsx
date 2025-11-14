@@ -20,6 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from './ui/select';
+import { ThemeToggle } from './theme-toggle';
 
 function generateBreadcrumbs(path: string) {
   const pathSegments = path.split('/').filter(Boolean);
@@ -110,9 +111,8 @@ export default function Header() {
             <span className="hidden sm:inline">Nouvel ordre de travail</span>
           </Link>
         </Button>
+        <ThemeToggle />
       </div>
     </header>
   );
 }
-
-    
