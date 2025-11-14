@@ -20,6 +20,7 @@ import {
   BarChart,
   Search,
   Plus,
+  Cog,
 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
@@ -147,9 +148,16 @@ export default function AppSidebar() {
       </SidebarContent>
       <SidebarFooter>
         <SidebarSeparator />
-        <div className="p-4 text-xs text-muted-foreground group-data-[collapsible=icon]:hidden">
-          <p>Analyses multi-sites et tendances</p>
-        </div>
+        <SidebarMenu>
+            <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={pathname.startsWith('/settings')} tooltip="Paramètres">
+                    <Link href="/settings">
+                        <Cog/>
+                        <span>Paramètres</span>
+                    </Link>
+                </SidebarMenuButton>
+            </SidebarMenuItem>
+        </SidebarMenu>
       </SidebarFooter>
     </Sidebar>
   );
