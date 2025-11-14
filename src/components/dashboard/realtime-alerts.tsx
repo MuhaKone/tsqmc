@@ -27,20 +27,21 @@ export default function RealtimeAlerts() {
               <TabsTrigger value="critical">Critiques</TabsTrigger>
               <TabsTrigger value="warnings">Avertissements</TabsTrigger>
             </TabsList>
-            <TabsContent value="all" className="mt-4">
-                <AlertList alerts={alerts} />
-            </TabsContent>
-            <TabsContent value="critical" className="mt-4">
-                <AlertList alerts={alerts.filter(a => a.type === 'Critical')} />
-            </TabsContent>
-            <TabsContent value="warnings" className="mt-4">
-                <AlertList alerts={alerts.filter(a => a.type === 'Warning')} />
-            </TabsContent>
           </Tabs>
         </div>
       </CardHeader>
       <CardContent className="pt-0">
-        
+        <Tabs defaultValue="all" className="w-full">
+            <TabsContent value="all" className="mt-0">
+                <AlertList alerts={alerts} />
+            </TabsContent>
+            <TabsContent value="critical" className="mt-0">
+                <AlertList alerts={alerts.filter(a => a.type === 'Critical')} />
+            </TabsContent>
+            <TabsContent value="warnings" className="mt-0">
+                <AlertList alerts={alerts.filter(a => a.type === 'Warning')} />
+            </TabsContent>
+          </Tabs>
       </CardContent>
     </Card>
   );
