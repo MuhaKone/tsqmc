@@ -21,7 +21,7 @@ import {
   TabsList,
   TabsTrigger,
 } from '@/components/ui/tabs';
-import { Bar, BarChart, CartesianGrid, XAxis, Line, ComposedChart, Tooltip } from 'recharts';
+import { Bar, BarChart, CartesianGrid, XAxis, Line, ComposedChart, Tooltip, YAxis } from 'recharts';
 import { ChartContainer, ChartTooltipContent } from '@/components/ui/chart';
 import { StatusBadge } from '@/components/status-badge';
 import { Badge } from '@/components/ui/badge';
@@ -303,3 +303,5 @@ function ChartPlaceholder({ children }: { children?: React.ReactNode }) {
         </div>
     )
 }
+
+    
