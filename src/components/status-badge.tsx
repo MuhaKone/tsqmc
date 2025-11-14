@@ -23,16 +23,22 @@ const statusConfig: Record<
     label: 'Critique',
     className: 'bg-red-500/20 text-red-400 border-transparent hover:bg-red-500/30',
   },
+  Surveillance: {
+    label: 'Surveillance',
+    className: 'bg-blue-500/20 text-blue-400 border-transparent hover:bg-blue-500/30',
+  }
 };
 
 type StatusBadgeProps = {
-  status: EquipmentStatus;
+  status: EquipmentStatus | 'Surveillance';
   className?: string;
   showIcon?: boolean;
 };
 
 export function StatusBadge({ status, className, showIcon = false }: StatusBadgeProps) {
   const config = statusConfig[status];
+  if (!config) return null;
+  
   const Icon = config.icon;
 
   return (

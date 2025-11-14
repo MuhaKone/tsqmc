@@ -84,8 +84,12 @@ export default function AppSidebar() {
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild tooltip="Analyses">
-                <Link href="#">
+              <SidebarMenuButton
+                asChild
+                isActive={pathname.startsWith('/analyses')}
+                tooltip="Analyses"
+              >
+                <Link href="/analyses">
                   <BarChart />
                   <span>Analyses</span>
                 </Link>
@@ -112,9 +116,14 @@ export default function AppSidebar() {
                     />
                     <span className="truncate">{item.name}</span>
                   </div>
-                  <StatusBadge
+                   <StatusBadge
                     status={item.status}
-                    className="hidden group-hover:flex"
+                    className={cn(
+                      item.status === 'Healthy' && 'bg-green-500/80 text-green-950 border-green-600/50',
+                      item.status === 'Warning' && 'bg-yellow-500/80 text-yellow-950 border-yellow-600/50',
+                      item.status === 'Critical' && 'bg-red-500/80 text-red-950 border-red-600/50',
+                      'px-1.5 py-0 text-[10px] font-semibold'
+                    )}
                   />
                 </Link>
               </SidebarMenuItem>
@@ -125,7 +134,7 @@ export default function AppSidebar() {
       <SidebarFooter>
         <SidebarSeparator />
         <div className="p-4 text-xs text-muted-foreground group-data-[collapsible=icon]:hidden">
-          <p>Surveillance d'actifs industriels, énergétiques et publics</p>
+          <p>Analyses multi-sites et tendances</p>
         </div>
       </SidebarFooter>
     </Sidebar>
