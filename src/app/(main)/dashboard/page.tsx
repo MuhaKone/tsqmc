@@ -19,7 +19,7 @@ export default function DashboardPage() {
   );
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="container mx-auto flex flex-col gap-6">
       <Tabs defaultValue="today">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <h2 className="text-2xl font-semibold">Aperçu</h2>
@@ -60,5 +60,3 @@ export default function DashboardPage() {
     </div>
   );
 }
-
-    

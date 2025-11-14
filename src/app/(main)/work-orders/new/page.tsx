@@ -94,7 +94,7 @@ export default function NewWorkOrderPage() {
   };
   
   return (
-    <div className="flex flex-col gap-6">
+    <div className="container mx-auto flex flex-col gap-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <h1 className="text-2xl font-semibold">Nouvel ordre de travail</h1>
         <div className="flex gap-2 flex-wrap">
