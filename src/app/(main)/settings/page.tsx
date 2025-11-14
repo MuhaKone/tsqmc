@@ -171,8 +171,8 @@ export default function SettingsPage() {
                         </Label>
                          <Label className="[&:has([data-state=checked])>div]:border-primary">
                             <RadioGroupItem value="system" className="sr-only" />
-                            <div className="items-center rounded-md border-2 border-muted p-1 hover:border-accent">
-                               <p className="text-center p-8 text-sm text-muted-foreground">Système</p>
+                            <div className="flex h-full items-center justify-center rounded-md border-2 border-muted p-1 hover:border-accent">
+                               <p className="text-center text-sm text-muted-foreground">Système</p>
                             </div>
                             <span className="block w-full p-2 text-center font-normal">
                                 Système
