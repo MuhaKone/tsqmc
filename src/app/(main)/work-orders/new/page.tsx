@@ -21,6 +21,17 @@ import {
 } from '@/components/ui/table';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+} from '@/components/ui/dialog';
+import { allParts } from '@/lib/data';
+import type { Part } from '@/lib/types';
+import { Checkbox } from '@/components/ui/checkbox';
 
 const defaultWorkOrder = {
     title: 'Inspection vibration palier B',
@@ -50,13 +61,12 @@ const defaultWorkOrder = {
         duration: '15m',
       },
     ],
-    parts: 'Graisse palier ISO VG68 (1), Joint palier B (1)',
-    documents: 'Procédure vibration v2.pdf',
+    parts: [],
+    documents: ['Procédure vibration v2.pdf'],
     assignedTo: 'J. Martin',
     assignedToAvatar: 'https://picsum.photos/seed/martin/40/40',
     deadline: 'Dans 6 jours',
     estimatedTime: '2h',
-    requiredParts: 'Graisse palier ISO VG68, clé dynamométrique',
 };
 
 const interventionTemplate = {
@@ -70,6 +80,8 @@ const interventionTemplate = {
     { name: 'Remise en service et test', assignee: 'S. Dubois', avatar: 'https://picsum.photos/seed/dubois/40/40', duration: '45m' },
   ],
   estimatedTime: '2h 45m',
+  parts: [],
+  documents: [],
 };
 
 const inspectionTemplate = {
@@ -83,16 +95,41 @@ const inspectionTemplate = {
     { name: 'Vérification connexions électriques', assignee: 'I. Traoré', avatar: 'https://picsum.photos/seed/traore/40/40', duration: '25m' },
   ],
   estimatedTime: '1h 15m',
+  parts: [],
+  documents: [],
 };
 
+type WorkOrder = Omit<typeof defaultWorkOrder, 'parts'> & { parts: Part[] };
+
 export default function NewWorkOrderPage() {
-  const [workOrder, setWorkOrder] = useState(defaultWorkOrder);
+  const [workOrder, setWorkOrder] = useState<WorkOrder>(defaultWorkOrder);
+  const [selectedParts, setSelectedParts] = useState<Part[]>([]);
+  const [isPartSelectorOpen, setIsPartSelectorOpen] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { id, value } = e.target;
     setWorkOrder(prev => ({ ...prev, [id]: value }));
   };
+
+  const handleSelectPart = (part: Part) => {
+    setSelectedParts(prev => 
+      prev.find(p => p.id === part.id)
+        ? prev.filter(p => p.id !== part.id)
+        : [...prev, part]
+    );
+  };
   
+  const addPartsToWorkOrder = () => {
+    setWorkOrder(prev => ({
+      ...prev,
+      parts: [...prev.parts, ...selectedParts.filter(sp => !prev.parts.find(p => p.id === sp.id))]
+    }));
+    setSelectedParts([]);
+    setIsPartSelectorOpen(false);
+  };
+
+  const requiredPartsString = workOrder.parts.map(p => `${p.name} (1)`).join(', ');
+
   return (
     <div className="container mx-auto flex flex-col gap-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -194,7 +231,47 @@ export default function NewWorkOrderPage() {
              <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
               <CardTitle>Pièces et documents</CardTitle>
                <div className="flex gap-2 flex-wrap w-full sm:w-auto">
-                <Button variant="outline" className="flex-grow sm:flex-grow-0">Ajouter pièce</Button>
+                <Dialog open={isPartSelectorOpen} onOpenChange={setIsPartSelectorOpen}>
+                  <DialogTrigger asChild>
+                    <Button variant="outline" className="flex-grow sm:flex-grow-0">Ajouter pièce</Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-[625px]">
+                    <DialogHeader>
+                      <DialogTitle>Sélectionner des pièces</DialogTitle>
+                    </DialogHeader>
+                    <div className="max-h-[60vh] overflow-y-auto">
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead className="w-[50px]"></TableHead>
+                            <TableHead>Pièce</TableHead>
+                            <TableHead>SKU</TableHead>
+                            <TableHead className="text-right">Stock</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {allParts.map(part => (
+                            <TableRow key={part.id}>
+                              <TableCell>
+                                <Checkbox 
+                                  checked={selectedParts.some(p => p.id === part.id)}
+                                  onCheckedChange={() => handleSelectPart(part)}
+                                />
+                              </TableCell>
+                              <TableCell className="font-medium">{part.name}</TableCell>
+                              <TableCell>{part.sku}</TableCell>
+                              <TableCell className="text-right">{part.stock}</TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </div>
+                    <DialogFooter>
+                      <Button variant="outline" onClick={() => setIsPartSelectorOpen(false)}>Annuler</Button>
+                      <Button onClick={addPartsToWorkOrder}>Ajouter les pièces</Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
                 <Button variant="outline" className="flex-grow sm:flex-grow-0">Ajouter document</Button>
               </div>
             </CardHeader>
@@ -203,13 +280,25 @@ export default function NewWorkOrderPage() {
                     <div>
                         <h4 className="mb-2 text-sm font-medium text-muted-foreground">Pièces requises</h4>
                         <div className="rounded-md border bg-muted/50 p-3 text-sm min-h-[60px]">
-                            {workOrder.parts}
+                           {workOrder.parts.length > 0 ? (
+                            <ul className="list-disc list-inside">
+                              {workOrder.parts.map(part => <li key={part.id}>{part.name}</li>)}
+                            </ul>
+                           ) : (
+                            <p className="text-muted-foreground">Aucune pièce requise.</p>
+                           )}
                         </div>
                     </div>
                      <div>
                         <h4 className="mb-2 text-sm font-medium text-muted-foreground">Documents</h4>
                         <div className="rounded-md border bg-muted/50 p-3 text-sm min-h-[60px]">
-                            {workOrder.documents}
+                          {workOrder.documents.length > 0 ? (
+                            <ul className="list-disc list-inside">
+                              {workOrder.documents.map(doc => <li key={doc}>{doc}</li>)}
+                            </ul>
+                           ) : (
+                            <p className="text-muted-foreground">Aucun document joint.</p>
+                           )}
                         </div>
                     </div>
                 </div>
@@ -248,7 +337,7 @@ export default function NewWorkOrderPage() {
               </div>
                <div className="flex flex-col space-y-1">
                 <span className="text-muted-foreground">Pièces</span>
-                <span className="text-sm">{workOrder.requiredParts}</span>
+                <span className="text-sm">{requiredPartsString || 'Aucune'}</span>
               </div>
             </CardContent>
           </Card>
