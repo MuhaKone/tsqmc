@@ -18,20 +18,16 @@ const alerts = [
 export default function RealtimeAlerts() {
   return (
     <Card className="bg-card">
-      <CardHeader>
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <Tabs defaultValue="all">
+        <CardHeader className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
           <CardTitle className="text-lg">Alertes en temps réel</CardTitle>
-          <Tabs defaultValue="all" className="w-full sm:w-auto">
-            <TabsList className="self-start sm:self-auto">
+            <TabsList className="w-full sm:w-auto self-start sm:self-auto">
               <TabsTrigger value="all">Toutes</TabsTrigger>
               <TabsTrigger value="critical">Critiques</TabsTrigger>
               <TabsTrigger value="warnings">Avertissements</TabsTrigger>
             </TabsList>
-          </Tabs>
-        </div>
-      </CardHeader>
-      <CardContent className="pt-0">
-        <Tabs defaultValue="all" className="w-full">
+        </CardHeader>
+        <CardContent className="pt-0">
             <TabsContent value="all" className="mt-0">
                 <AlertList alerts={alerts} />
             </TabsContent>
@@ -41,8 +37,8 @@ export default function RealtimeAlerts() {
             <TabsContent value="warnings" className="mt-0">
                 <AlertList alerts={alerts.filter(a => a.type === 'Warning')} />
             </TabsContent>
-          </Tabs>
-      </CardContent>
+        </CardContent>
+      </Tabs>
     </Card>
   );
 }
