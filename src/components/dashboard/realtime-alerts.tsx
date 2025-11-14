@@ -1,3 +1,4 @@
+'use client';
 import {
   Card,
   CardContent,
@@ -46,24 +47,22 @@ export default function RealtimeAlerts() {
 }
 
 
-function AlertList({ alerts }: { alerts: typeof alerts}) {
+function AlertList({ alerts }: { alerts: (typeof alerts)}) {
     if (alerts.length === 0) {
         return <p className="text-center text-muted-foreground py-4">Aucune alerte.</p>
     }
     return (
         <div className="space-y-4">
         {alerts.map((alert, index) => (
-          <div key={index} className="flex items-center gap-4">
-            <div className={`h-2.5 w-2.5 rounded-full ${alert.color} shrink-0`} />
+          <div key={index} className="flex items-start gap-4">
+            <div className={`mt-1 h-2.5 w-2.5 rounded-full ${alert.color} shrink-0`} />
             <div className="flex-1">
               <p className="font-medium leading-tight">{alert.title}</p>
               <p className="text-xs text-muted-foreground">{alert.time} • Site: {alert.site}</p>
             </div>
-            <Button variant="outline" size="sm">Voir</Button>
+            <Button variant="outline" size="sm" className="self-center">Voir</Button>
           </div>
         ))}
       </div>
     )
 }
-
-    
