@@ -111,10 +111,10 @@ export default function AppSidebar() {
                   href={`/equipment/${item.id}`}
                   className="group flex w-full items-center justify-between rounded-md p-2 text-sm text-sidebar-foreground hover:bg-sidebar-accent"
                 >
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 overflow-hidden">
                     <span
                       className={cn(
-                        'h-2 w-2 rounded-full',
+                        'h-2 w-2 rounded-full shrink-0',
                         statusDot[item.status]
                       )}
                     />
@@ -126,7 +126,7 @@ export default function AppSidebar() {
                       item.status === 'Healthy' && 'bg-green-500/80 text-green-950 border-green-600/50',
                       item.status === 'Warning' && 'bg-yellow-500/80 text-yellow-950 border-yellow-600/50',
                       item.status === 'Critical' && 'bg-red-500/80 text-red-950 border-red-600/50',
-                      'px-1.5 py-0 text-[10px] font-semibold'
+                      'px-1.5 py-0 text-[10px] font-semibold shrink-0'
                     )}
                   />
                 </Link>
