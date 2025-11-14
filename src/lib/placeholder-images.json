@@ -1,3 +1,40 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "equipment-1",
+      "description": "A large electric motor in a factory.",
+      "imageUrl": "https://images.unsplash.com/photo-1723730741647-caaea47ac90f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxlbGVjdHJpYyUyMG1vdG9yfGVufDB8fHx8MTc2MzAzOTQwMnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "electric motor"
+    },
+    {
+      "id": "equipment-2",
+      "description": "A complex network of pipes and valves in a pumping station.",
+      "imageUrl": "https://images.unsplash.com/photo-1715249949823-40574d284756?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxwdW1waW5nJTIwc3RhdGlvbnxlbnwwfHx8fDE3NjMxMTA5NTd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "pumping station"
+    },
+    {
+      "id": "equipment-3",
+      "description": "A row of servers in a data center.",
+      "imageUrl": "https://images.unsplash.com/photo-1571786256017-aee7a0c009b6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxkYXRhJTIwY2VudGVyfGVufDB8fHx8MTc2MzExMDk1N3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "data center"
+    },
+    {
+      "id": "equipment-4",
+      "description": "A conveyor belt system in a warehouse.",
+      "imageUrl": "https://images.unsplash.com/photo-1662900547519-eeb199360d3e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxjb252ZXlvciUyMGJlbHR8ZW58MHx8fHwxNzYzMTEwOTU3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "conveyor belt"
+    },
+    {
+      "id": "equipment-5",
+      "description": "A wind turbine against a clear sky.",
+      "imageUrl": "https://images.unsplash.com/photo-1466629437334-b4f6603563c5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHx3aW5kJTIwdHVyYmluZXxlbnwwfHx8fDE3NjMwMjM0ODB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "wind turbine"
+    },
+    {
+      "id": "equipment-6",
+      "description": "A close-up of an industrial HVAC unit.",
+      "imageUrl": "https://images.unsplash.com/photo-1761115435501-bebf019aba54?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxIVkFDJTIwdW5pdHxlbnwwfHx8fDE3NjMwODMxNDB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "HVAC unit"
+    }
+  ]
 }
