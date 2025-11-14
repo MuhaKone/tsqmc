@@ -1,10 +1,14 @@
 import { allEquipment } from '@/lib/data';
-import type { EquipmentStatus } from '@/lib/types';
+import type { Equipment, EquipmentStatus } from '@/lib/types';
 import StatsCards from '@/components/dashboard/stats-cards';
-import EquipmentCard from '@/components/dashboard/equipment-card';
+import EquipmentOverview from '@/components/dashboard/equipment-overview';
+import RealtimeAlerts from '@/components/dashboard/realtime-alerts';
+import UpcomingMaintenance from '@/components/dashboard/upcoming-maintenance';
+import PredictedHealth from '@/components/dashboard/predicted-health';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export default function DashboardPage() {
-  const equipment = allEquipment;
+  const equipment: Equipment[] = allEquipment;
 
   const statusCounts = equipment.reduce(
     (acc, item) => {
@@ -15,28 +19,44 @@ export default function DashboardPage() {
   );
 
   return (
-    <div className="flex flex-col gap-8">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight text-foreground">
-          Dashboard
-        </h1>
-        <p className="text-muted-foreground">
-          Welcome back, here's an overview of your equipment health.
-        </p>
+    <div className="flex flex-col gap-6">
+      <Tabs defaultValue="today">
+        <div className="flex items-center justify-between">
+          <h2 className="text-2xl font-semibold">Aperçu</h2>
+          <TabsList>
+            <TabsTrigger value="today">Aujourd'hui</TabsTrigger>
+            <TabsTrigger value="7d">7 j</TabsTrigger>
+            <TabsTrigger value="30d">30 j</TabsTrigger>
+          </TabsList>
+        </div>
+        <TabsContent value="today">
+          <StatsCards counts={statusCounts} total={equipment.length} />
+        </TabsContent>
+        <TabsContent value="7d">
+          <p className="p-4 text-center text-muted-foreground">7-day data not available.</p>
+        </TabsContent>
+        <TabsContent value="30d">
+          <p className="p-4 text-center text-muted-foreground">30-day data not available.</p>
+        </TabsContent>
+      </Tabs>
+      
+      <div className="grid gap-6 lg:grid-cols-2">
+        <EquipmentOverview equipment={equipment} />
+        <RealtimeAlerts />
       </div>
 
-      <StatsCards counts={statusCounts} total={equipment.length} />
-
-      <section>
-        <h2 className="text-2xl font-semibold tracking-tight text-foreground mb-4">
-          Equipment Overview
-        </h2>
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
-          {equipment.map((item) => (
-            <EquipmentCard key={item.id} equipment={item} />
-          ))}
+      <div className="grid gap-6 lg:grid-cols-3">
+        <div className="lg:col-span-2">
+           <UpcomingMaintenance />
         </div>
-      </section>
+        <PredictedHealth />
+      </div>
+
+      {/* The original live data charts are now on the equipment details page */}
+      {/* <section>
+        <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
+        </div>
+      </section> */}
     </div>
   );
 }

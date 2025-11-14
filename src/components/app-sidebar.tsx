@@ -8,83 +8,125 @@ import {
   SidebarMenuButton,
   SidebarFooter,
   SidebarSeparator,
+  SidebarGroup,
+  SidebarGroupLabel,
 } from '@/components/ui/sidebar';
 import { AppLogo } from './app-logo';
-import { LayoutDashboard, LogOut, User, Settings } from 'lucide-react';
+import {
+  LayoutDashboard,
+  AlertTriangle,
+  Calendar,
+  BarChart,
+  Search,
+} from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from './ui/dropdown-menu';
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
-import { Button } from './ui/button';
+import { allEquipment } from '@/lib/data';
+import { StatusBadge } from './status-badge';
+import { Input } from './ui/input';
+import { cn } from '@/lib/utils';
+import React from 'react';
+
+const statusDot: Record<string, string> = {
+  Healthy: 'bg-green-500',
+  Warning: 'bg-yellow-500',
+  Critical: 'bg-red-500',
+};
 
 export default function AppSidebar() {
   const pathname = usePathname();
 
   return (
-    <Sidebar>
+    <Sidebar collapsible="icon">
       <SidebarHeader>
         <AppLogo />
       </SidebarHeader>
       <SidebarContent>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton
-              asChild
-              isActive={pathname.startsWith('/dashboard')}
-              tooltip="Dashboard"
-            >
-              <Link href="/dashboard">
-                <LayoutDashboard />
-                <span>Dashboard</span>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
+        <SidebarGroup>
+          <div className="relative">
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Input
+              type="search"
+              placeholder="Rechercher un équipement..."
+              className="w-full rounded-lg bg-background pl-8"
+            />
+          </div>
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupLabel>Principal</SidebarGroupLabel>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                asChild
+                isActive={pathname.startsWith('/dashboard')}
+                tooltip="Tableau de bord"
+              >
+                <Link href="/dashboard">
+                  <LayoutDashboard />
+                  <span>Tableau de bord</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild tooltip="Alertes">
+                <Link href="#">
+                  <AlertTriangle />
+                  <span>Alertes</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild tooltip="Planification">
+                <Link href="#">
+                  <Calendar />
+                  <span>Planification</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild tooltip="Analyses">
+                <Link href="#">
+                  <BarChart />
+                  <span>Analyses</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarGroup>
+        <SidebarSeparator />
+        <SidebarGroup>
+          <SidebarGroupLabel>Équipements</SidebarGroupLabel>
+          <SidebarMenu>
+            {allEquipment.map((item) => (
+              <SidebarMenuItem key={item.id}>
+                <Link
+                  href={`/equipment/${item.id}`}
+                  className="group flex w-full items-center justify-between rounded-md p-2 text-sm text-sidebar-foreground hover:bg-sidebar-accent"
+                >
+                  <div className="flex items-center gap-2">
+                    <span
+                      className={cn(
+                        'h-2 w-2 rounded-full',
+                        statusDot[item.status]
+                      )}
+                    />
+                    <span className="truncate">{item.name}</span>
+                  </div>
+                  <StatusBadge
+                    status={item.status}
+                    className="hidden group-hover:flex"
+                  />
+                </Link>
+              </SidebarMenuItem>
+            ))}
+          </SidebarMenu>
+        </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
         <SidebarSeparator />
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-auto w-full justify-start p-2">
-              <div className="flex w-full items-center gap-2">
-                <Avatar className="h-8 w-8">
-                  <AvatarImage src="https://picsum.photos/seed/user/100/100" />
-                  <AvatarFallback>MC</AvatarFallback>
-                </Avatar>
-                <div className="hidden text-left group-data-[collapsible=icon]:hidden">
-                  <p className="text-sm font-medium leading-none">Mamady Condé</p>
-                  <p className="text-xs text-muted-foreground">
-                    m.conde@ntasmart.gn
-                  </p>
-                </div>
-              </div>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent side="right" align="start" className="w-56">
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <User className="mr-2 h-4 w-4" />
-              <span>Profile</span>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Settings className="mr-2 h-4 w-4" />
-              <span>Settings</span>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <LogOut className="mr-2 h-4 w-4" />
-              <span>Log out</span>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="p-4 text-xs text-muted-foreground group-data-[collapsible=icon]:hidden">
+          <p>Surveillance d'actifs industriels, énergétiques et publics</p>
+        </div>
       </SidebarFooter>
     </Sidebar>
   );
