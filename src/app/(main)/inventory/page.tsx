@@ -30,9 +30,9 @@ import {
 import { cn } from '@/lib/utils';
 
 const statusColors: Record<PartStatus, string> = {
-  'En stock': 'bg-green-100 text-green-800 dark:bg-green-500/20 dark:text-green-400',
-  'Stock bas': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-500/20 dark:text-yellow-400',
-  'En rupture': 'bg-red-100 text-red-800 dark:bg-red-500/20 dark:text-red-400',
+  'En stock': 'bg-green-100 text-green-800 dark:bg-green-500/20 dark:text-green-400 border-green-200 dark:border-transparent',
+  'Stock bas': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-500/20 dark:text-yellow-400 border-yellow-200 dark:border-transparent',
+  'En rupture': 'bg-red-100 text-red-800 dark:bg-red-500/20 dark:text-red-400 border-red-200 dark:border-transparent',
 };
 
 export default function InventoryPage() {
@@ -66,51 +66,53 @@ export default function InventoryPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Nom</TableHead>
-                <TableHead>SKU</TableHead>
-                <TableHead>Statut</TableHead>
-                <TableHead className="text-right">Stock</TableHead>
-                <TableHead>Emplacement</TableHead>
-                <TableHead>
-                  <span className="sr-only">Actions</span>
-                </TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {parts.map((part) => (
-                <TableRow key={part.id}>
-                  <TableCell className="font-medium">{part.name}</TableCell>
-                  <TableCell className="text-muted-foreground">{part.sku}</TableCell>
-                  <TableCell>
-                    <Badge variant="outline" className={cn('border-transparent', statusColors[part.status])}>
-                      {part.status}
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="text-right">{part.stock} / {part.threshold}</TableCell>
-                  <TableCell className="text-muted-foreground">{part.location}</TableCell>
-                  <TableCell>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button aria-haspopup="true" size="icon" variant="ghost">
-                          <MoreHorizontal className="h-4 w-4" />
-                          <span className="sr-only">Toggle menu</span>
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem>Modifier</DropdownMenuItem>
-                        <DropdownMenuItem>Ajuster le stock</DropdownMenuItem>
-                        <DropdownMenuItem>Voir l'historique</DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </TableCell>
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Nom</TableHead>
+                  <TableHead>SKU</TableHead>
+                  <TableHead>Statut</TableHead>
+                  <TableHead className="text-right">Stock / Seuil</TableHead>
+                  <TableHead>Emplacement</TableHead>
+                  <TableHead>
+                    <span className="sr-only">Actions</span>
+                  </TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {parts.map((part) => (
+                  <TableRow key={part.id}>
+                    <TableCell className="font-medium min-w-48">{part.name}</TableCell>
+                    <TableCell className="text-muted-foreground">{part.sku}</TableCell>
+                    <TableCell>
+                      <Badge variant="outline" className={cn('border-transparent font-medium', statusColors[part.status])}>
+                        {part.status}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="text-right">{part.stock} / {part.threshold}</TableCell>
+                    <TableCell className="text-muted-foreground">{part.location}</TableCell>
+                    <TableCell>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button aria-haspopup="true" size="icon" variant="ghost">
+                            <MoreHorizontal className="h-4 w-4" />
+                            <span className="sr-only">Toggle menu</span>
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                          <DropdownMenuItem>Modifier</DropdownMenuItem>
+                          <DropdownMenuItem>Ajuster le stock</DropdownMenuItem>
+                          <DropdownMenuItem>Voir l'historique</DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         </CardContent>
       </Card>
     </div>
