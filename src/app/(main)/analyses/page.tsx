@@ -21,7 +21,7 @@ import {
   TabsList,
   TabsTrigger,
 } from '@/components/ui/tabs';
-import { Bar, BarChart, CartesianGrid, XAxis, Line, ComposedChart, Tooltip, YAxis } from 'recharts';
+import { Bar, BarChart, CartesianGrid, XAxis, Line, ComposedChart, Tooltip, YAxis, Cell } from 'recharts';
 import { ChartContainer, ChartTooltipContent } from '@/components/ui/chart';
 import { StatusBadge } from '@/components/status-badge';
 import { Badge } from '@/components/ui/badge';
@@ -68,6 +68,8 @@ const categoryDistributionData = [
   { category: 'Température', value: 30 },
   { category: 'Électrique', value: 25 },
 ];
+const chartColors = ['hsl(var(--chart-1))', 'hsl(var(--chart-2))', 'hsl(var(--chart-3))'];
+
 
 const correlationData = Array.from({ length: 50 }, () => ({
   x: Math.random() * 100,
@@ -160,7 +162,11 @@ export default function AnalysesPage() {
                                 <XAxis type="number" hide />
                                 <YAxis dataKey="category" type="category" tickLine={false} axisLine={false} tickMargin={8} width={80}/>
                                 <Tooltip cursor={{ fill: 'hsl(var(--muted))' }} content={<ChartTooltipContent />} />
-                                <Bar dataKey="value" fill="var(--color-chart-1)" radius={4} />
+                                <Bar dataKey="value" radius={4}>
+                                  {categoryDistributionData.map((entry, index) => (
+                                    <Cell key={`cell-${index}`} fill={chartColors[index % chartColors.length]} />
+                                  ))}
+                                </Bar>
                             </BarChart>
                         </ChartContainer>
                     </CardContent>
@@ -188,7 +194,7 @@ export default function AnalysesPage() {
                         <ChartContainer config={{}} className="h-64 w-full">
                             <ComposedChart data={correlationData}>
                                  <XAxis type="number" dataKey="x" tickLine={false} axisLine={false} tickMargin={8} fontSize={12} tickFormatter={() => ''}/>
-                                 <YAxis type="number" dataKey="y" tickLine={false} axisLine={false} tickMargin={8} fontSize={12} tickFormatter={() => ''} />
+                                 <YAxis type="number" dataKey="y" tickLine={false} axisLine={false} tickMargin={8} fontSize={十二} tickFormatter={() => ''} />
                                 <Tooltip content={<ChartTooltipContent hideIndicator />} />
                                 <Line dataKey="y" stroke="var(--color-chart-2)" dot={true} />
                             </ComposedChart>
@@ -283,9 +289,9 @@ export default function AnalysesPage() {
                 <CardContent>
                     <ChartPlaceholder>
                         <div className="flex flex-wrap items-center justify-center gap-4 text-xs text-muted-foreground">
-                            <span className="flex items-center gap-1.5"><Circle className="h-2 w-2 fill-current text-blue-400"/>Température</span>
-                            <span className="flex items-center gap-1.5"><Circle className="h-2 w-2 fill-current text-orange-400"/>Vibration</span>
-                            <span className="flex items-center gap-1.5"><Circle className="h-2 w-2 fill-current text-green-400"/>Courant</span>
+                            <span className="flex items-center gap-1.5"><Circle className="h-2 w-2 fill-blue-400 text-blue-400"/>Température</span>
+                            <span className="flex items-center gap-1.5"><Circle className="h-2 w-2 fill-orange-400 text-orange-400"/>Vibration</span>
+                            <span className="flex items-center gap-1.5"><Circle className="h-2 w-2 fill-green-400 text-green-400"/>Courant</span>
                         </div>
                     </ChartPlaceholder>
                 </CardContent>
@@ -332,4 +338,5 @@ function ChartPlaceholder({ children }: { children?: React.ReactNode }) {
     )
 }
 
+    
     
