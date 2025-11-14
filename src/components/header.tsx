@@ -66,9 +66,9 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-10 flex h-16 items-center gap-4 border-b bg-background/80 px-4 backdrop-blur-sm sm:px-6">
       <SidebarTrigger className="md:hidden" />
-      <div className="flex-1">
+      <div className="flex-1 hidden md:block">
         {pathname === '/dashboard' ? (
-          <h1 className="text-2xl font-bold">
+          <h1 className="text-xl font-bold">
             {breadcrumbs[0].name}
           </h1>
         ) : (
@@ -92,9 +92,9 @@ export default function Header() {
           </Breadcrumb>
         )}
       </div>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 ml-auto">
         <Select defaultValue="all">
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger className="w-[130px] sm:w-[180px]">
             <SelectValue placeholder="Tous les sites" />
           </SelectTrigger>
           <SelectContent>
@@ -106,11 +106,13 @@ export default function Header() {
         </Select>
         <Button asChild>
           <Link href="/work-orders/new">
-            <Plus className="mr-2 h-4 w-4" />
-            Nouvel ordre de travail
+            <Plus className="mr-0 sm:mr-2 h-4 w-4" />
+            <span className="hidden sm:inline">Nouvel ordre de travail</span>
           </Link>
         </Button>
       </div>
     </header>
   );
 }
+
+    

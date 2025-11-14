@@ -19,9 +19,9 @@ export default function RealtimeAlerts() {
     <Card className="bg-card">
       <CardHeader className="p-4">
         <Tabs defaultValue="all" className="w-full">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <CardTitle className="text-lg">Alertes en temps réel</CardTitle>
-            <TabsList>
+            <TabsList className="self-start sm:self-auto">
               <TabsTrigger value="all">Toutes</TabsTrigger>
               <TabsTrigger value="critical">Critiques</TabsTrigger>
               <TabsTrigger value="warnings">Avertissements</TabsTrigger>
@@ -54,9 +54,9 @@ function AlertList({ alerts }: { alerts: typeof alerts}) {
         <div className="space-y-4">
         {alerts.map((alert, index) => (
           <div key={index} className="flex items-center gap-4">
-            <div className={`h-2.5 w-2.5 rounded-full ${alert.color}`} />
+            <div className={`h-2.5 w-2.5 rounded-full ${alert.color} shrink-0`} />
             <div className="flex-1">
-              <p className="font-medium">{alert.title}</p>
+              <p className="font-medium leading-tight">{alert.title}</p>
               <p className="text-xs text-muted-foreground">{alert.time} • Site: {alert.site}</p>
             </div>
             <Button variant="outline" size="sm">Voir</Button>
@@ -65,3 +65,5 @@ function AlertList({ alerts }: { alerts: typeof alerts}) {
       </div>
     )
 }
+
+    

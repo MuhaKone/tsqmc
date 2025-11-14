@@ -43,9 +43,9 @@ const tasks = [
 export default function NewWorkOrderPage() {
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <h1 className="text-2xl font-semibold">Nouvel ordre de travail</h1>
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap">
           <Button variant="outline">Template: Intervention</Button>
           <Button variant="outline">Template: Inspection</Button>
         </div>
@@ -101,60 +101,62 @@ export default function NewWorkOrderPage() {
 
           {/* Tasks */}
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between">
+            <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
               <CardTitle>Tâches</CardTitle>
-              <Button variant="outline">Ajouter tâche</Button>
+              <Button variant="outline" className="w-full sm:w-auto">Ajouter tâche</Button>
             </CardHeader>
             <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Tâche</TableHead>
-                    <TableHead>Responsable</TableHead>
-                    <TableHead className="text-right">Durée</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {tasks.map((task, index) => (
-                    <TableRow key={index}>
-                      <TableCell className="font-medium">{task.name}</TableCell>
-                      <TableCell>
-                        <div className="flex items-center gap-2">
-                          <Avatar className="h-6 w-6">
-                            <AvatarImage src={task.avatar} />
-                            <AvatarFallback>{task.assignee.charAt(0)}</AvatarFallback>
-                          </Avatar>
-                          <span>{task.assignee}</span>
-                        </div>
-                      </TableCell>
-                      <TableCell className="text-right">{task.duration}</TableCell>
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Tâche</TableHead>
+                      <TableHead>Responsable</TableHead>
+                      <TableHead className="text-right">Durée</TableHead>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+                  </TableHeader>
+                  <TableBody>
+                    {tasks.map((task, index) => (
+                      <TableRow key={index}>
+                        <TableCell className="font-medium min-w-[200px]">{task.name}</TableCell>
+                        <TableCell>
+                          <div className="flex items-center gap-2">
+                            <Avatar className="h-6 w-6">
+                              <AvatarImage src={task.avatar} />
+                              <AvatarFallback>{task.assignee.charAt(0)}</AvatarFallback>
+                            </Avatar>
+                            <span>{task.assignee}</span>
+                          </div>
+                        </TableCell>
+                        <TableCell className="text-right">{task.duration}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
             </CardContent>
           </Card>
 
           {/* Parts and Documents */}
           <Card>
-             <CardHeader className="flex flex-row items-center justify-between">
+             <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
               <CardTitle>Pièces et documents</CardTitle>
-               <div className="flex gap-2">
-                <Button variant="outline">Ajouter pièce</Button>
-                <Button variant="outline">Ajouter document</Button>
+               <div className="flex gap-2 flex-wrap w-full sm:w-auto">
+                <Button variant="outline" className="flex-grow sm:flex-grow-0">Ajouter pièce</Button>
+                <Button variant="outline" className="flex-grow sm:flex-grow-0">Ajouter document</Button>
               </div>
             </CardHeader>
             <CardContent>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <h4 className="mb-2 text-sm font-medium text-muted-foreground">Pièces requises</h4>
-                        <div className="rounded-md border bg-muted/50 p-3 text-sm">
+                        <div className="rounded-md border bg-muted/50 p-3 text-sm min-h-[60px]">
                             Graisse palier ISO VG68 (1), Joint palier B (1)
                         </div>
                     </div>
                      <div>
                         <h4 className="mb-2 text-sm font-medium text-muted-foreground">Documents</h4>
-                        <div className="rounded-md border bg-muted/50 p-3 text-sm">
+                        <div className="rounded-md border bg-muted/50 p-3 text-sm min-h-[60px]">
                             Procédure vibration v2.pdf
                         </div>
                     </div>
@@ -201,11 +203,13 @@ export default function NewWorkOrderPage() {
         </div>
       </div>
       
-       <div className="flex items-center justify-end gap-2 border-t border-border pt-4 mt-2">
-            <span className="text-sm text-muted-foreground mr-auto">Créé depuis l'alerte: Pic de vibration • Il y a 2 min</span>
-            <Button variant="outline">Enregistrer brouillon</Button>
-            <Button>Valider et publier</Button>
+       <div className="flex flex-col sm:flex-row items-center justify-end gap-2 border-t border-border pt-4 mt-2">
+            <span className="text-sm text-muted-foreground mr-auto order-last sm:order-first mt-2 sm:mt-0">Créé depuis l'alerte: Pic de vibration • Il y a 2 min</span>
+            <Button variant="outline" className="w-full sm:w-auto">Enregistrer brouillon</Button>
+            <Button className="w-full sm:w-auto">Valider et publier</Button>
         </div>
     </div>
   );
 }
+
+    

@@ -78,11 +78,11 @@ const correlationData = Array.from({ length: 50 }, () => ({
 export default function AnalysesPage() {
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <h1 className="text-2xl font-semibold">Analyses et tendances</h1>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           <Select defaultValue="all-sites">
-            <SelectTrigger className="w-[150px]">
+            <SelectTrigger className="w-full sm:w-[150px]">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -90,7 +90,7 @@ export default function AnalysesPage() {
             </SelectContent>
           </Select>
           <Select defaultValue="30d">
-            <SelectTrigger className="w-[80px]">
+            <SelectTrigger className="w-full sm:w-[80px]">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -100,29 +100,29 @@ export default function AnalysesPage() {
             </SelectContent>
           </Select>
            <Select defaultValue="vibration">
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-full sm:w-[180px]">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="vibration">Catégorie: Vibration</SelectItem>
             </SelectContent>
           </Select>
-          <Button variant="outline">Exporter</Button>
-          <Button>Configurer</Button>
+          <Button variant="outline" className="w-full sm:w-auto">Exporter</Button>
+          <Button className="w-full sm:w-auto">Configurer</Button>
         </div>
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="lg:col-span-2">
             <Tabs defaultValue="ensemble">
-                <TabsList className="mb-4">
+                <TabsList className="mb-4 flex-wrap h-auto">
                     <TabsTrigger value="ensemble">Vue d'ensemble</TabsTrigger>
                     <TabsTrigger value="capteurs">Capteurs</TabsTrigger>
                     <TabsTrigger value="sites">Sites</TabsTrigger>
                     <TabsTrigger value="equipements">Équipements</TabsTrigger>
                 </TabsList>
                 <TabsContent value="ensemble">
-                    <div className="grid gap-4 md:grid-cols-4">
+                    <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
                         <StatCard title="Anomalies (30 j)" value="184" change="+12% vs 30 j" />
                         <StatCard title="MTBF global" value="42 j" change="+3 j" />
                         <StatCard title="Temps d'arrêt évité" value="118 h" change="+9 h" />
@@ -172,7 +172,7 @@ export default function AnalysesPage() {
                     <CardHeader><CardTitle className="text-base">Top équipements à risque</CardTitle></CardHeader>
                     <CardContent className="space-y-4">
                     {topRisks.map(risk => (
-                        <div key={risk.name} className="flex items-center justify-between rounded-md border p-3">
+                        <div key={risk.name} className="flex flex-col sm:flex-row sm:items-center sm:justify-between rounded-md border p-3 gap-2">
                             <div>
                                 <p className="font-semibold">{risk.name}</p>
                                 <p className="text-xs text-muted-foreground">Score risque {risk.score}/100 • {risk.location}</p>
@@ -200,7 +200,7 @@ export default function AnalysesPage() {
             <Card className="mt-6">
                 <CardHeader><CardTitle className="text-base">Segments et recommandations</CardTitle></CardHeader>
                 <CardContent>
-                    <div className="grid grid-cols-4 gap-4 text-sm">
+                    <div className="hidden md:grid md:grid-cols-4 gap-4 text-sm">
                         <div className="font-semibold text-muted-foreground">Racines probables</div>
                         <div className="font-semibold text-muted-foreground col-span-2">Actions suggérées</div>
                         <div className="font-semibold text-muted-foreground">Impact attendu</div>
@@ -223,6 +223,34 @@ export default function AnalysesPage() {
                                     <p className="text-xs text-muted-foreground">{rec.impact}</p>
                                 </div>
                             </React.Fragment>
+                        ))}
+                    </div>
+                    <div className="md:hidden space-y-4">
+                        {recommendations.map((rec, i) => (
+                            <div key={i} className="p-3 rounded-md border bg-muted/30 space-y-3">
+                                <div>
+                                    <p className="font-semibold text-muted-foreground text-xs">Racine probable</p>
+                                    <p className="font-semibold">{rec.cause}</p>
+                                    <p className="text-xs text-muted-foreground">Confiance {rec.confidence}</p>
+                                </div>
+                                <div>
+                                    <p className="font-semibold text-muted-foreground text-xs">Action suggérée</p>
+                                    <div className="flex justify-between items-start">
+                                        <div>
+                                            <p className="font-semibold">{rec.action}</p>
+                                            <p className="text-xs text-muted-foreground">Durée estimée {rec.duration}</p>
+                                        </div>
+                                        <Badge variant={rec.priority === "Haute" ? "destructive" : "secondary"}>{rec.priority}</Badge>
+                                    </div>
+                                </div>
+                                 {rec.impact && (
+                                <div>
+                                    <p className="font-semibold text-muted-foreground text-xs">Impact attendu</p>
+                                    <p className="text-xs text-muted-foreground">{rec.impact}</p>
+                                </div>
+                                )}
+                                <Button variant="outline" size="sm" className="w-full">Actionner</Button>
+                            </div>
                         ))}
                     </div>
                 </CardContent>
@@ -254,7 +282,7 @@ export default function AnalysesPage() {
                 </CardHeader>
                 <CardContent>
                     <ChartPlaceholder>
-                        <div className="flex items-center justify-center gap-4 text-xs text-muted-foreground">
+                        <div className="flex flex-wrap items-center justify-center gap-4 text-xs text-muted-foreground">
                             <span className="flex items-center gap-1.5"><Circle className="h-2 w-2 fill-current text-blue-400"/>Température</span>
                             <span className="flex items-center gap-1.5"><Circle className="h-2 w-2 fill-current text-orange-400"/>Vibration</span>
                             <span className="flex items-center gap-1.5"><Circle className="h-2 w-2 fill-current text-green-400"/>Courant</span>

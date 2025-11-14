@@ -19,7 +19,7 @@ const valueStyles = 'text-3xl font-bold text-foreground';
 
 export default function StatsCards({ counts, total }: StatsCardsProps) {
   return (
-    <div className="mt-4 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+    <div className="mt-4 grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
       <Card className={cn(cardStyles)}>
         <CardHeader className="p-4">
           <CardTitle className={cn(titleStyles)}>Équipements au total</CardTitle>
@@ -59,3 +59,5 @@ export default function StatsCards({ counts, total }: StatsCardsProps) {
     </div>
   );
 }
+
+    

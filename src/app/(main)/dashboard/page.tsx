@@ -21,9 +21,9 @@ export default function DashboardPage() {
   return (
     <div className="flex flex-col gap-6">
       <Tabs defaultValue="today">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <h2 className="text-2xl font-semibold">Aperçu</h2>
-          <TabsList>
+          <TabsList className="self-start sm:self-center">
             <TabsTrigger value="today">Aujourd'hui</TabsTrigger>
             <TabsTrigger value="7d">7 j</TabsTrigger>
             <TabsTrigger value="30d">30 j</TabsTrigger>
@@ -45,7 +45,7 @@ export default function DashboardPage() {
         <RealtimeAlerts />
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-3">
+      <div className="grid gap-6 grid-cols-1 lg:grid-cols-3">
         <div className="lg:col-span-2">
            <UpcomingMaintenance />
         </div>
@@ -60,3 +60,5 @@ export default function DashboardPage() {
     </div>
   );
 }
+
+    

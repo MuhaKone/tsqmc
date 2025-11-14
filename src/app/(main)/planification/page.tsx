@@ -18,6 +18,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Plus } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const scheduledTasks = [
   {
@@ -70,14 +71,15 @@ const scheduledTasks = [
 
 export default function PlanificationPage() {
     const [date, setDate] = React.useState<Date | undefined>(new Date());
+    const isMobile = useIsMobile();
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <h1 className="text-2xl font-semibold">Planification</h1>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           <Select defaultValue="week">
-            <SelectTrigger className="w-[120px]">
+            <SelectTrigger className="w-full sm:w-[120px]">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -87,14 +89,14 @@ export default function PlanificationPage() {
             </SelectContent>
           </Select>
           <Select defaultValue="all-sites">
-            <SelectTrigger className="w-[150px]">
+            <SelectTrigger className="w-full sm:w-[150px]">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all-sites">Tous les sites</SelectItem>
             </SelectContent>
           </Select>
-          <Button>
+          <Button className="w-full sm:w-auto">
             <Plus className="mr-2 h-4 w-4" />
             Planifier une tâche
           </Button>
@@ -110,8 +112,9 @@ export default function PlanificationPage() {
                 selected={date}
                 onSelect={setDate}
                 className="w-full"
+                numberOfMonths={isMobile ? 1 : 2}
                 classNames={{
-                    months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
+                    months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0 p-3",
                     month: "space-y-4 w-full",
                     table: "w-full border-collapse space-y-1",
                     head_row: "flex",
@@ -141,7 +144,7 @@ export default function PlanificationPage() {
                                     <div className="text-xs text-muted-foreground w-20 shrink-0">{task.time}</div>
                                     <div className="flex-grow">
                                         <p className="font-medium leading-snug">{task.title}</p>
-                                        <div className="flex items-center justify-between mt-2">
+                                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mt-2 gap-2">
                                              <div className="flex items-center gap-2">
                                                 <Avatar className="h-5 w-5">
                                                     <AvatarImage src={task.assignee.avatar} />
@@ -149,7 +152,7 @@ export default function PlanificationPage() {
                                                 </Avatar>
                                                 <span className="text-xs text-muted-foreground">{task.assignee.name}</span>
                                             </div>
-                                            <div className="flex items-center gap-2">
+                                            <div className="flex items-center gap-2 self-end sm:self-center">
                                                 <Badge variant={task.priority === 'Haute' ? 'destructive' : 'secondary'}>{task.priority}</Badge>
                                                 <Badge variant="outline">{task.type}</Badge>
                                             </div>
@@ -167,3 +170,5 @@ export default function PlanificationPage() {
     </div>
   );
 }
+
+    
