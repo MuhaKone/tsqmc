@@ -194,7 +194,7 @@ export default function AnalysesPage() {
                         <ChartContainer config={{}} className="h-64 w-full">
                             <ComposedChart data={correlationData}>
                                  <XAxis type="number" dataKey="x" tickLine={false} axisLine={false} tickMargin={8} fontSize={12} tickFormatter={() => ''}/>
-                                 <YAxis type="number" dataKey="y" tickLine={false} axisLine={false} tickMargin={8} fontSize={十二} tickFormatter={() => ''} />
+                                 <YAxis type="number" dataKey="y" tickLine={false} axisLine={false} tickMargin={8} fontSize={12} tickFormatter={() => ''} />
                                 <Tooltip content={<ChartTooltipContent hideIndicator />} />
                                 <Line dataKey="y" stroke="var(--color-chart-2)" dot={true} />
                             </ComposedChart>
