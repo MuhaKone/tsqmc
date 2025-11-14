@@ -21,10 +21,15 @@ import {
 import { Switch } from '@/components/ui/switch';
 import { useTheme } from 'next-themes';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 export default function SettingsPage() {
   const { theme, setTheme } = useTheme();
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   return (
     <div className="flex flex-col gap-6">
@@ -120,65 +125,67 @@ export default function SettingsPage() {
                     <p className="text-sm text-muted-foreground">
                         Sélectionnez le thème pour votre tableau de bord.
                     </p>
-                    <RadioGroup 
-                        defaultValue={theme} 
-                        onValueChange={setTheme}
-                        className="grid max-w-md grid-cols-3 gap-4 pt-4"
-                    >
-                        <Label className="[&:has([data-state=checked])>div]:border-primary">
-                            <RadioGroupItem value="light" className="sr-only" />
-                            <div className="items-center rounded-md border-2 border-muted p-1 hover:border-accent">
-                                <div className="space-y-2 rounded-sm bg-[#ecedef] p-2">
-                                <div className="space-y-2 rounded-md bg-white p-2 shadow-sm">
-                                    <div className="h-2 w-[80px] rounded-lg bg-[#ecedef]" />
-                                    <div className="h-2 w-[100px] rounded-lg bg-[#ecedef]" />
-                                </div>
-                                <div className="flex items-center space-x-2 rounded-md bg-white p-2 shadow-sm">
-                                    <div className="h-4 w-4 rounded-full bg-[#ecedef]" />
-                                    <div className="h-2 w-[100px] rounded-lg bg-[#ecedef]" />
-                                </div>
-                                <div className="flex items-center space-x-2 rounded-md bg-white p-2 shadow-sm">
-                                    <div className="h-4 w-4 rounded-full bg-[#ecedef]" />
-                                    <div className="h-2 w-[100px] rounded-lg bg-[#ecedef]" />
-                                </div>
-                                </div>
-                            </div>
-                            <span className="block w-full p-2 text-center font-normal">
-                                Clair
-                            </span>
-                        </Label>
-                         <Label className="[&:has([data-state=checked])>div]:border-primary">
-                            <RadioGroupItem value="dark" className="sr-only" />
-                            <div className="items-center rounded-md border-2 border-muted bg-popover p-1 hover:border-accent">
-                                <div className="space-y-2 rounded-sm bg-slate-950 p-2">
-                                <div className="space-y-2 rounded-md bg-slate-800 p-2 shadow-sm">
-                                    <div className="h-2 w-[80px] rounded-lg bg-slate-400" />
-                                    <div className="h-2 w-[100px] rounded-lg bg-slate-400" />
-                                </div>
-                                <div className="flex items-center space-x-2 rounded-md bg-slate-800 p-2 shadow-sm">
-                                    <div className="h-4 w-4 rounded-full bg-slate-400" />
-                                    <div className="h-2 w-[100px] rounded-lg bg-slate-400" />
-                                </div>
-                                <div className="flex items-center space-x-2 rounded-md bg-slate-800 p-2 shadow-sm">
-                                    <div className="h-4 w-4 rounded-full bg-slate-400" />
-                                    <div className="h-2 w-[100px] rounded-lg bg-slate-400" />
-                                </div>
-                                </div>
-                            </div>
-                            <span className="block w-full p-2 text-center font-normal">
-                                Sombre
-                            </span>
-                        </Label>
-                         <Label className="[&:has([data-state=checked])>div]:border-primary">
-                            <RadioGroupItem value="system" className="sr-only" />
-                            <div className="flex h-full items-center justify-center rounded-md border-2 border-muted p-1 hover:border-accent">
-                               <p className="text-center text-sm text-muted-foreground">Système</p>
-                            </div>
-                            <span className="block w-full p-2 text-center font-normal">
-                                Système
-                            </span>
-                        </Label>
-                    </RadioGroup>
+                    {isMounted && (
+                      <RadioGroup 
+                          value={theme} 
+                          onValueChange={setTheme}
+                          className="grid max-w-md grid-cols-3 gap-4 pt-4"
+                      >
+                          <Label className="[&:has([data-state=checked])>div]:border-primary">
+                              <RadioGroupItem value="light" className="sr-only" />
+                              <div className="items-center rounded-md border-2 border-muted p-1 hover:border-accent">
+                                  <div className="space-y-2 rounded-sm bg-[#ecedef] p-2">
+                                  <div className="space-y-2 rounded-md bg-white p-2 shadow-sm">
+                                      <div className="h-2 w-[80px] rounded-lg bg-[#ecedef]" />
+                                      <div className="h-2 w-[100px] rounded-lg bg-[#ecedef]" />
+                                  </div>
+                                  <div className="flex items-center space-x-2 rounded-md bg-white p-2 shadow-sm">
+                                      <div className="h-4 w-4 rounded-full bg-[#ecedef]" />
+                                      <div className="h-2 w-[100px] rounded-lg bg-[#ecedef]" />
+                                  </div>
+                                  <div className="flex items-center space-x-2 rounded-md bg-white p-2 shadow-sm">
+                                      <div className="h-4 w-4 rounded-full bg-[#ecedef]" />
+                                      <div className="h-2 w-[100px] rounded-lg bg-[#ecedef]" />
+                                  </div>
+                                  </div>
+                              </div>
+                              <span className="block w-full p-2 text-center font-normal">
+                                  Clair
+                              </span>
+                          </Label>
+                          <Label className="[&:has([data-state=checked])>div]:border-primary">
+                              <RadioGroupItem value="dark" className="sr-only" />
+                              <div className="items-center rounded-md border-2 border-muted bg-popover p-1 hover:border-accent">
+                                  <div className="space-y-2 rounded-sm bg-slate-950 p-2">
+                                  <div className="space-y-2 rounded-md bg-slate-800 p-2 shadow-sm">
+                                      <div className="h-2 w-[80px] rounded-lg bg-slate-400" />
+                                      <div className="h-2 w-[100px] rounded-lg bg-slate-400" />
+                                  </div>
+                                  <div className="flex items-center space-x-2 rounded-md bg-slate-800 p-2 shadow-sm">
+                                      <div className="h-4 w-4 rounded-full bg-slate-400" />
+                                      <div className="h-2 w-[100px] rounded-lg bg-slate-400" />
+                                  </div>
+                                  <div className="flex items-center space-x-2 rounded-md bg-slate-800 p-2 shadow-sm">
+                                      <div className="h-4 w-4 rounded-full bg-slate-400" />
+                                      <div className="h-2 w-[100px] rounded-lg bg-slate-400" />
+                                  </div>
+                                  </div>
+                              </div>
+                              <span className="block w-full p-2 text-center font-normal">
+                                  Sombre
+                              </span>
+                          </Label>
+                          <Label className="[&:has([data-state=checked])>div]:border-primary">
+                              <RadioGroupItem value="system" className="sr-only" />
+                              <div className="flex h-full items-center justify-center rounded-md border-2 border-muted p-1 hover:border-accent">
+                                <p className="text-center text-sm text-muted-foreground">Système</p>
+                              </div>
+                              <span className="block w-full p-2 text-center font-normal">
+                                  Système
+                              </span>
+                          </Label>
+                      </RadioGroup>
+                    )}
                 </div>
             </CardContent>
           </Card>
