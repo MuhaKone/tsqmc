@@ -22,7 +22,7 @@ import {
   TabsTrigger,
 } from '@/components/ui/tabs';
 import { Bar, BarChart, CartesianGrid, XAxis, Line, ComposedChart, Tooltip, YAxis, Cell } from 'recharts';
-import { ChartContainer, ChartTooltipContent } from '@/components/ui/chart';
+import { ChartContainer, ChartTooltipContent, ChartLegend, ChartLegendContent } from '@/components/ui/chart';
 import { StatusBadge } from '@/components/status-badge';
 import { Badge } from '@/components/ui/badge';
 import { Circle } from 'lucide-react';
@@ -64,12 +64,10 @@ const dailyAnomaliesData = [
 ];
 
 const categoryDistributionData = [
-  { category: 'Vibration', value: 45 },
-  { category: 'Température', value: 30 },
-  { category: 'Électrique', value: 25 },
+  { category: 'Vibration', value: 45, fill: 'var(--color-vibration)' },
+  { category: 'Température', value: 30, fill: 'var(--color-temperature)' },
+  { category: 'Électrique', value: 25, fill: 'var(--color-electrique)' },
 ];
-const chartColors = ['hsl(var(--chart-1))', 'hsl(var(--chart-2))', 'hsl(var(--chart-3))'];
-
 
 const correlationData = Array.from({ length: 50 }, () => ({
   x: Math.random() * 100,
@@ -139,14 +137,22 @@ export default function AnalysesPage() {
                         <CardTitle className="text-base">Tendance anomalies par jour</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <ChartContainer config={{}} className="h-64 w-full">
+                        <ChartContainer
+                          config={{
+                            critiques: { label: "Critiques", color: "hsl(var(--chart-1))" },
+                            avertissements: { label: "Avertissements", color: "hsl(var(--chart-2))" },
+                            resolues: { label: "Résolues", color: "hsl(var(--chart-4))" },
+                          }}
+                          className="h-64 w-full"
+                        >
                             <ComposedChart data={dailyAnomaliesData}>
                                 <CartesianGrid vertical={false} strokeDasharray="3 3" />
                                 <XAxis dataKey="date" tickLine={false} axisLine={false} tickMargin={8} fontSize={12} />
                                 <Tooltip content={<ChartTooltipContent />} />
-                                <Bar dataKey="critiques" stackId="a" fill="var(--color-chart-1)" radius={[4, 4, 0, 0]} />
-                                <Bar dataKey="avertissements" stackId="a" fill="var(--color-chart-2)" radius={[4, 4, 0, 0]} />
-                                <Line type="monotone" dataKey="resolues" stroke="var(--color-chart-4)" strokeWidth={2} dot={false} />
+                                <ChartLegend content={<ChartLegendContent />} />
+                                <Bar dataKey="critiques" stackId="a" fill="var(--color-critiques)" radius={[4, 4, 0, 0]} />
+                                <Bar dataKey="avertissements" stackId="a" fill="var(--color-avertissements)" radius={[0, 0, 0, 0]} />
+                                <Line type="monotone" dataKey="resolues" stroke="var(--color-resolues)" strokeWidth={2} dot={false} />
                             </ComposedChart>
                         </ChartContainer>
                     </CardContent>
@@ -156,15 +162,23 @@ export default function AnalysesPage() {
                         <CardTitle className="text-base">Distribution par catégorie</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <ChartContainer config={{}} className="h-64 w-full">
+                        <ChartContainer
+                          config={{
+                            vibration: { label: 'Vibration', color: 'hsl(var(--chart-1))' },
+                            temperature: { label: 'Température', color: 'hsl(var(--chart-2))' },
+                            electrique: { label: 'Électrique', color: 'hsl(var(--chart-3))' },
+                          }}
+                          className="h-64 w-full"
+                        >
                             <BarChart data={categoryDistributionData} layout="vertical" margin={{ left: 20 }}>
                                 <CartesianGrid horizontal={false} />
                                 <XAxis type="number" hide />
                                 <YAxis dataKey="category" type="category" tickLine={false} axisLine={false} tickMargin={8} width={80}/>
                                 <Tooltip cursor={{ fill: 'hsl(var(--muted))' }} content={<ChartTooltipContent />} />
+                                <ChartLegend content={<ChartLegendContent />} />
                                 <Bar dataKey="value" radius={4}>
-                                  {categoryDistributionData.map((entry, index) => (
-                                    <Cell key={`cell-${index}`} fill={chartColors[index % chartColors.length]} />
+                                  {categoryDistributionData.map((entry) => (
+                                    <Cell key={entry.category} fill={entry.fill} />
                                   ))}
                                 </Bar>
                             </BarChart>
