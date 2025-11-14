@@ -21,6 +21,7 @@ import {
   Search,
   Plus,
   Cog,
+  Boxes,
 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
@@ -100,6 +101,18 @@ export default function AppSidebar() {
                 <Link href="/analyses">
                   <BarChart />
                   <span>Analyses</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                asChild
+                isActive={pathname.startsWith('/inventory')}
+                tooltip="Inventaire"
+              >
+                <Link href="/inventory">
+                  <Boxes />
+                  <span>Inventaire</span>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>

@@ -22,3 +22,15 @@ export type MaintenanceLog = {
   date: string;
   comment: string;
 };
+
+export type PartStatus = 'En stock' | 'Stock bas' | 'En rupture';
+
+export type Part = {
+  id: string;
+  name: string;
+  sku: string;
+  stock: number;
+  threshold: number;
+  location: string;
+  status: PartStatus;
+};
