@@ -43,7 +43,7 @@ export function StatusBadge({ status, className, showIcon = false }: StatusBadge
 
   return (
     <Badge
-      className={cn('flex w-fit items-center gap-1.5', config.className, className)}
+      className={cn('flex w-fit items-center justify-center gap-1.5', config.className, className)}
     >
       {showIcon && Icon && <Icon className="h-3.5 w-3.5" />}
       <span>{config.label}</span>

@@ -123,10 +123,10 @@ export default function AppSidebar() {
                    <StatusBadge
                     status={item.status}
                     className={cn(
-                      item.status === 'Healthy' && 'bg-green-500/80 text-green-950 border-green-600/50',
-                      item.status === 'Warning' && 'bg-yellow-500/80 text-yellow-950 border-yellow-600/50',
-                      item.status === 'Critical' && 'bg-red-500/80 text-red-950 border-red-600/50',
-                      'px-1.5 py-0 text-[10px] font-semibold shrink-0'
+                      item.status === 'Healthy' && 'bg-green-500 text-green-950',
+                      item.status === 'Warning' && 'bg-yellow-500 text-yellow-950',
+                      item.status === 'Critical' && 'bg-red-500 text-red-950',
+                      'px-1.5 py-0 text-[10px] font-semibold shrink-0 border-none'
                     )}
                   />
                 </Link>
