@@ -22,21 +22,41 @@ import {
 } from './ui/select';
 
 function generateBreadcrumbs(path: string) {
-  if (path === '/dashboard') {
-    return [{ href: '/dashboard', name: 'Tableau de maintenance prédictive', isCurrent: true }];
-  }
-
   const pathSegments = path.split('/').filter(Boolean);
+
   const breadcrumbs = pathSegments.map((segment, index) => {
     const href = '/' + pathSegments.slice(0, index + 1).join('/');
-    const name = segment
-      .replace(/-/g, ' ')
-      .replace(/\[id\]/g, 'details')
-      .replace(/\b\w/g, (l) => l.toUpperCase());
+    // A simple way to format the breadcrumb name
+    let name = segment.replace(/-/g, ' ').replace(/\[id\]/g, 'details');
+    name = name.charAt(0).toUpperCase() + name.slice(1);
+    
+    // Custom names for specific routes
+    if (href === '/dashboard') {
+      name = 'Tableau de bord';
+    }
+     if (href === '/work-orders/new') {
+      name = 'Créer ODT';
+    }
+
 
     return { href, name, isCurrent: index === pathSegments.length - 1 };
   });
-  return [{ href: '/', name: 'Home' }, ...breadcrumbs];
+
+  if (path === '/dashboard') {
+      return [{ href: '/dashboard', name: 'Tableau de maintenance prédictive', isCurrent: true }];
+  }
+  
+  if (path.startsWith('/work-orders/new')) {
+     return [
+        { href: '/dashboard', name: 'Nouvel ordre de travail', isCurrent: false },
+        { href: '#', name: 'Alertes', isCurrent: false },
+        { href: '#', name: 'Détail', isCurrent: false },
+        { href: '/work-orders/new', name: 'Créer ODT', isCurrent: true },
+    ]
+  }
+
+
+  return [{ href: '/dashboard', name: 'Home' }, ...breadcrumbs];
 }
 
 export default function Header() {
@@ -55,7 +75,7 @@ export default function Header() {
           <Breadcrumb>
             <BreadcrumbList>
               {breadcrumbs.map((crumb, index) => (
-                <React.Fragment key={crumb.href}>
+                <React.Fragment key={crumb.href + index}>
                   <BreadcrumbItem>
                     {crumb.isCurrent ? (
                       <BreadcrumbPage>{crumb.name}</BreadcrumbPage>
@@ -84,9 +104,11 @@ export default function Header() {
             <SelectItem value="poste-electrique">Poste électrique</SelectItem>
           </SelectContent>
         </Select>
-        <Button>
-          <Plus className="mr-2 h-4 w-4" />
-          Nouvel ordre de travail
+        <Button asChild>
+          <Link href="/work-orders/new">
+            <Plus className="mr-2 h-4 w-4" />
+            Nouvel ordre de travail
+          </Link>
         </Button>
       </div>
     </header>
