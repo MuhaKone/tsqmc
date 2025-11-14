@@ -76,8 +76,12 @@ export default function AppSidebar() {
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild tooltip="Planification">
-                <Link href="#">
+              <SidebarMenuButton
+                asChild
+                isActive={pathname.startsWith('/planification')}
+                tooltip="Planification"
+              >
+                <Link href="/planification">
                   <Calendar />
                   <span>Planification</span>
                 </Link>
