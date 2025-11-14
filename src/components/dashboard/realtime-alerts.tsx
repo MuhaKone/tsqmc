@@ -18,28 +18,28 @@ const alerts = [
 export default function RealtimeAlerts() {
   return (
     <Card className="bg-card">
-      <CardHeader className="p-4">
-        <Tabs defaultValue="all" className="w-full">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <CardTitle className="text-lg">Alertes en temps réel</CardTitle>
+      <CardHeader>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <CardTitle className="text-lg">Alertes en temps réel</CardTitle>
+          <Tabs defaultValue="all" className="w-full sm:w-auto">
             <TabsList className="self-start sm:self-auto">
               <TabsTrigger value="all">Toutes</TabsTrigger>
               <TabsTrigger value="critical">Critiques</TabsTrigger>
               <TabsTrigger value="warnings">Avertissements</TabsTrigger>
             </TabsList>
-          </div>
-          <TabsContent value="all" className="mt-4">
-            <AlertList alerts={alerts} />
-          </TabsContent>
-          <TabsContent value="critical" className="mt-4">
-            <AlertList alerts={alerts.filter(a => a.type === 'Critical')} />
-          </TabsContent>
-          <TabsContent value="warnings" className="mt-4">
-             <AlertList alerts={alerts.filter(a => a.type === 'Warning')} />
-          </TabsContent>
-        </Tabs>
+            <TabsContent value="all" className="mt-4">
+                <AlertList alerts={alerts} />
+            </TabsContent>
+            <TabsContent value="critical" className="mt-4">
+                <AlertList alerts={alerts.filter(a => a.type === 'Critical')} />
+            </TabsContent>
+            <TabsContent value="warnings" className="mt-4">
+                <AlertList alerts={alerts.filter(a => a.type === 'Warning')} />
+            </TabsContent>
+          </Tabs>
+        </div>
       </CardHeader>
-      <CardContent className="p-4 pt-0">
+      <CardContent className="pt-0">
         
       </CardContent>
     </Card>
