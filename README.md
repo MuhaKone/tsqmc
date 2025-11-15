@@ -1,5 +1,7 @@
-# Firebase Studio
+# N'Tasmart
 
-This is a NextJS starter in Firebase Studio.
-
-To get started, take a look at src/app/page.tsx.
+Une solution d’IA qui analyse les données
+des équipements (température, vibration, tension,
+intensité, etc.) en temps réel afin de détecter les
+anomalies et prédire les pannes avant qu’elles ne
+surviennent.
