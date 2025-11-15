@@ -1,9 +1,9 @@
-import type { Equipment, EquipmentStatus, MaintenanceLog } from './types';
+import type { Equipment, EquipmentStatus, MaintenanceLog, Part } from './types';
 import { PlaceHolderImages } from './placeholder-images';
 
 const equipmentImages = PlaceHolderImages;
 
-export const allEquipment: Equipment[] = [
+export let allEquipment: Equipment[] = [
   {
     id: 'em-001',
     name: 'Main Factory Motor',
@@ -95,6 +95,23 @@ export const allEquipment: Equipment[] = [
     },
   },
 ];
+
+export const allParts: Part[] = [
+  { id: 'part-001', name: 'Roulement à billes 6203-2RS', sku: 'RB-6203-2RS', stock: 50, threshold: 10, location: 'Magasin A, Allée 3', status: 'En stock' },
+  { id: 'part-002', name: 'Filtre à huile HF160', sku: 'FH-HF160', stock: 8, threshold: 5, location: 'Magasin B, Étagère 2', status: 'Stock bas' },
+  { id: 'part-003', name: 'Courroie trapézoïdale A-36', sku: 'CT-A36', stock: 22, threshold: 5, location: 'Magasin A, Allée 5', status: 'En stock' },
+  { id: 'part-004', name: 'Joint d\'étanchéité 50x72x10', sku: 'JE-507210', stock: 0, threshold: 10, location: 'Magasin C, Casier 12', status: 'En rupture' },
+  { id: 'part-005', name: 'Fusible 10A rapide', sku: 'FU-10A-F', stock: 150, threshold: 50, location: 'Magasin Elec, Tiroir 1', status: 'En stock' },
+  { id: 'part-006', name: 'Graisse palier ISO VG68', sku: 'GR-VG68', stock: 12, threshold: 15, location: 'Magasin B, Allée 1', status: 'Stock bas' },
+];
+
+
+// This is a temporary in-memory solution. 
+// In a real application, this would be a database call.
+export const addEquipment = (equipment: Equipment) => {
+    allEquipment.unshift(equipment);
+};
+
 
 export const getEquipmentById = (id: string): Equipment | undefined => {
   return allEquipment.find((eq) => eq.id === id);

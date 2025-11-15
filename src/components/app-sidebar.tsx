@@ -10,6 +10,7 @@ import {
   SidebarSeparator,
   SidebarGroup,
   SidebarGroupLabel,
+  SidebarMenuAction,
 } from '@/components/ui/sidebar';
 import { AppLogo } from './app-logo';
 import {
@@ -18,6 +19,9 @@ import {
   Calendar,
   BarChart,
   Search,
+  Plus,
+  Cog,
+  Boxes,
 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
@@ -26,6 +30,7 @@ import { StatusBadge } from './status-badge';
 import { Input } from './ui/input';
 import { cn } from '@/lib/utils';
 import React from 'react';
+import { Button } from './ui/button';
 
 const statusDot: Record<string, string> = {
   Healthy: 'bg-green-500',
@@ -76,18 +81,38 @@ export default function AppSidebar() {
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild tooltip="Planification">
-                <Link href="#">
+              <SidebarMenuButton
+                asChild
+                isActive={pathname.startsWith('/planification')}
+                tooltip="Planification"
+              >
+                <Link href="/planification">
                   <Calendar />
                   <span>Planification</span>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
             <SidebarMenuItem>
-              <SidebarMenuButton asChild tooltip="Analyses">
-                <Link href="#">
+              <SidebarMenuButton
+                asChild
+                isActive={pathname.startsWith('/analyses')}
+                tooltip="Analyses"
+              >
+                <Link href="/analyses">
                   <BarChart />
                   <span>Analyses</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                asChild
+                isActive={pathname.startsWith('/inventory')}
+                tooltip="Inventaire"
+              >
+                <Link href="/inventory">
+                  <Boxes />
+                  <span>Inventaire</span>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
@@ -95,7 +120,14 @@ export default function AppSidebar() {
         </SidebarGroup>
         <SidebarSeparator />
         <SidebarGroup>
-          <SidebarGroupLabel>Équipements</SidebarGroupLabel>
+          <div className="flex items-center justify-between">
+            <SidebarGroupLabel>Équipements</SidebarGroupLabel>
+            <Button asChild variant="ghost" size="icon" className="h-7 w-7 group-data-[collapsible=icon]:hidden">
+                <Link href="/equipment/new" title="Ajouter un équipement">
+                    <Plus className="h-4 w-4" />
+                </Link>
+            </Button>
+          </div>
           <SidebarMenu>
             {allEquipment.map((item) => (
               <SidebarMenuItem key={item.id}>
@@ -103,18 +135,23 @@ export default function AppSidebar() {
                   href={`/equipment/${item.id}`}
                   className="group flex w-full items-center justify-between rounded-md p-2 text-sm text-sidebar-foreground hover:bg-sidebar-accent"
                 >
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 overflow-hidden">
                     <span
                       className={cn(
-                        'h-2 w-2 rounded-full',
+                        'h-2 w-2 rounded-full shrink-0',
                         statusDot[item.status]
                       )}
                     />
                     <span className="truncate">{item.name}</span>
                   </div>
-                  <StatusBadge
+                   <StatusBadge
                     status={item.status}
-                    className="hidden group-hover:flex"
+                    className={cn(
+                      item.status === 'Healthy' && 'bg-green-500/80 text-green-950',
+                      item.status === 'Warning' && 'bg-yellow-500/80 text-yellow-950',
+                      item.status === 'Critical' && 'bg-red-500/80 text-red-950',
+                      'px-1.5 py-0 text-[10px] font-semibold shrink-0 border-none'
+                    )}
                   />
                 </Link>
               </SidebarMenuItem>
@@ -124,9 +161,16 @@ export default function AppSidebar() {
       </SidebarContent>
       <SidebarFooter>
         <SidebarSeparator />
-        <div className="p-4 text-xs text-muted-foreground group-data-[collapsible=icon]:hidden">
-          <p>Surveillance d'actifs industriels, énergétiques et publics</p>
-        </div>
+        <SidebarMenu>
+            <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={pathname.startsWith('/settings')} tooltip="Paramètres">
+                    <Link href="/settings">
+                        <Cog/>
+                        <span>Paramètres</span>
+                    </Link>
+                </SidebarMenuButton>
+            </SidebarMenuItem>
+        </SidebarMenu>
       </SidebarFooter>
     </Sidebar>
   );

@@ -1,27 +1,42 @@
+'use client';
 import type { Equipment } from '@/lib/types';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { StatusBadge } from '@/components/status-badge';
-import { Thermometer, Zap, Waves } from 'lucide-react';
+import { Thermometer, Zap, Waves, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
+import { useState } from 'react';
+import { Button } from '../ui/button';
 
 type EquipmentOverviewProps = {
   equipment: Equipment[];
 };
 
-export default function EquipmentOverview({ equipment }: EquipmentOverviewProps) {
-  const displayEquipment = equipment.slice(0, 3); // Show first 3 for this component
+export default function EquipmentOverview({
+  equipment,
+}: EquipmentOverviewProps) {
+  const [showAll, setShowAll] = useState(false);
+  const displayEquipment = showAll ? equipment : equipment.slice(0, 3);
 
   return (
     <Card className="bg-card">
-      <CardContent className="p-4">
-        <div className="grid grid-cols-1 divide-y divide-border sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+      <CardHeader className="flex flex-row items-center justify-between p-4">
+        <CardTitle className="text-lg">Aperçu des équipements</CardTitle>
+      </CardHeader>
+      <CardContent className="p-4 pt-0">
+        <div className="grid grid-cols-1 divide-y divide-border">
           {displayEquipment.map((item) => (
-            <Link key={item.id} href={`/equipment/${item.id}`} className="group block px-4 py-4 first:pt-0 sm:first:pt-4 sm:first:pl-0 sm:last:pr-0">
-              <div className="flex items-center justify-between">
-                <h3 className="font-semibold">{item.name}</h3>
-                <StatusBadge status={item.status} />
+            <Link
+              key={item.id}
+              href={`/equipment/${item.id}`}
+              className="group block py-4 first:pt-0 last:pb-0"
+            >
+              <div className="flex flex-row items-start justify-between gap-2">
+                <h3 className="flex-1 truncate font-semibold">
+                  {item.name}
+                </h3>
+                <StatusBadge status={item.status} className="shrink-0" />
               </div>
-              <div className="mt-4 flex justify-around text-xs text-muted-foreground">
+              <div className="mt-4 flex flex-wrap items-center justify-around gap-x-4 gap-y-2 text-xs text-muted-foreground">
                 <div className="flex items-center gap-1">
                   <Thermometer className="h-4 w-4" />
                   <span>{item.sensorData.temperature}°C</span>
@@ -38,6 +53,18 @@ export default function EquipmentOverview({ equipment }: EquipmentOverviewProps)
             </Link>
           ))}
         </div>
+        {!showAll && equipment.length > 3 && (
+          <div className="mt-4 border-t border-border pt-4">
+            <Button
+              variant="ghost"
+              className="w-full"
+              onClick={() => setShowAll(true)}
+            >
+              <ChevronDown className="mr-2 h-4 w-4" />
+              Voir plus
+            </Button>
+          </div>
+        )}
       </CardContent>
     </Card>
   );

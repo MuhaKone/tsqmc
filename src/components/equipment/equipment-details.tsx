@@ -23,7 +23,7 @@ export default function EquipmentDetails({
     <div className="flex flex-col gap-8">
       <Card className="overflow-hidden">
         <div className="grid md:grid-cols-3">
-          <div className="relative h-60 md:h-full">
+          <div className="relative h-60 md:h-full min-h-[200px]">
             <Image
               src={equipment.imageUrl}
               alt={equipment.name}
@@ -33,11 +33,13 @@ export default function EquipmentDetails({
             />
           </div>
           <div className="p-6 md:col-span-2">
-            <div className="flex items-start justify-between gap-4">
+            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
               <h1 className="text-3xl font-bold tracking-tight text-foreground">
                 {equipment.name}
               </h1>
-              <StatusBadge status={equipment.status} />
+              <div className="shrink-0">
+                <StatusBadge status={equipment.status} />
+              </div>
             </div>
             <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
               <div className="flex items-center gap-1.5">
@@ -58,7 +60,7 @@ export default function EquipmentDetails({
         </div>
       </Card>
       <Tabs defaultValue="live-data">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3 h-auto sm:h-10">
           <TabsTrigger value="live-data">Live Data</TabsTrigger>
           <TabsTrigger value="ai-analysis">AI Analysis</TabsTrigger>
           <TabsTrigger value="maintenance-log">Maintenance Log</TabsTrigger>
@@ -76,3 +78,5 @@ export default function EquipmentDetails({
     </div>
   );
 }
+
+    

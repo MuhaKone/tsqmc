@@ -38,12 +38,12 @@ export default function UpcomingMaintenance() {
       <CardContent className="p-4 pt-0">
         <div className="space-y-4">
           {maintenanceTasks.map((task, index) => (
-            <div key={index} className="flex items-center gap-4 border-b border-border pb-4 last:border-b-0 last:pb-0">
+            <div key={index} className="flex flex-col sm:flex-row sm:items-center gap-4 border-b border-border pb-4 last:border-b-0 last:pb-0">
               <div className="flex-1">
                 <p className="font-medium">{task.title}</p>
                 <p className="text-sm text-muted-foreground">{task.time}</p>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 self-end sm:self-center">
                 <Avatar className="h-6 w-6">
                    <AvatarImage src={task.avatar} />
                    <AvatarFallback>{task.assignee.charAt(0)}</AvatarFallback>
@@ -57,3 +57,5 @@ export default function UpcomingMaintenance() {
     </Card>
   );
 }
+
+    
